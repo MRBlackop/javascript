@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Ammi!</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #f0e68c 0%, #ff69b4 100%);
+            color: #4a148c;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 700px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            position: relative;
+            z-index: 10;
+            animation: bounceIn 1s ease-out;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            color: #d81b60;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+            animation: pulse 2s infinite alternate;
+        }
+
+        #message {
+            font-size: 1.8rem;
+            color: #880e4f;
+            margin-bottom: 30px;
+        }
+
+        #gift-box-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 30px auto;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        #gift-box-top, #gift-box-bottom {
+            background-color: #e91e63;
+            border: 3px solid #c2185b;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            transition: all 0.7s ease-out;
+            transform-origin: bottom center;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        #gift-box-bottom {
+            z-index: 1;
+            background-color: #f06292;
+        }
+
+        #gift-box-top {
+            z-index: 2;
+            background-image: linear-gradient(rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
+            transform: translateY(0) rotateX(0deg);
+        }
+
+        #gift-box-top.open {
+            transform: translateY(-100px) rotateX(70deg);
+            background-color: #e91e63;
+        }
+
+        #gift-box-container::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background-color: #ffeb3b;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            transition: transform 0.7s ease-out;
+        }
+        #gift-box-container::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background-color: #ffeb3b;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            transition: transform 0.7s ease-out;
+        }
+
+        #gift-box-container.opened::before {
+            transform: translateX(-50%) translateY(-100px);
+        }
+        #gift-box-container.opened::after {
+            transform: translateY(-50%) translateX(-100px);
+        }
+
+
+        .decoration-fly {
+            position: absolute;
+            opacity: 0;
+            animation: flyOut 2s forwards ease-out;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .decoration-fly.candy {
+            width: 30px;
+            height: 30px;
+            background-color: #ff9800;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .decoration-fly.star {
+            width: 20px;
+            height: 20px;
+            background-color: #ffeb3b;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+        .decoration-fly.heart {
+            width: 25px;
+            height: 25px;
+            background-color: #f44336;
+            position: relative;
+        }
+        .decoration-fly.heart::before, .decoration-fly.heart::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #f44336;
+            border-radius: 50% 50% 0 0;
+            left: 0;
+            top: -50%;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        .decoration-fly.heart::after {
+            left: 50%;
+            top: 0;
+            transform: rotate(45deg);
+            transform-origin: 0 100%;
+        }
+
+
+        @keyframes flyOut {
+            0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(var(--rot)) scale(0.5); }
+        }
+
+        .decoration {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .teddy-bear {
+            width: 120px;
+            height: auto;
+            animation: floatBob 3s ease-in-out infinite alternate;
+        }
+
+        .flower {
+            width: 80px;
+            height: auto;
+            animation: rotateFloat 5s linear infinite alternate;
+        }
+
+        .teddy-bear.top-left { top: 5%; left: 5%; }
+        .teddy-bear.bottom-right { bottom: 5%; right: 5%; transform: scaleX(-1); }
+        .flower.top-right { top: 10%; right: 10%; }
+        .flower.bottom-left { bottom: 10%; left: 10%; }
+        .flower.middle-right { top: 50%; right: -20px; transform: translateY(-50%) rotate(20deg); }
+        .teddy-bear.middle-left { top: 60%; left: -30px; transform: translateY(-50%) rotate(-10deg); width: 100px; }
+
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.03); }
+        }
+
+        @keyframes floatBob {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-15px); }
+        }
+
+        @keyframes rotateFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <img src="images/r70wK3I.png" alt="Cute Teddy Bear" class="decoration teddy-bear top-left">
+    <img src="images/r70wK3I.png" alt="Cute Teddy Bear" class="decoration teddy-bear bottom-right">
+    <img src="images/WpP8z7V.png" alt="Pink Flower" class="decoration flower top-right">
+    <img src="images/WpP8z7V.png" alt="Pink Flower" class="decoration flower bottom-left">
+    <img src="images/WpP8z7V.png" alt="Pink Flower" class="decoration flower middle-right">
+    <img src="images/r70wK3I.png" alt="Cute Teddy Bear" class="decoration teddy-bear middle-left">
+    
+
+    <div class="container">
+        <h1>Happy Birthday</h1>
+        <p id="message">Ma Ammi Babe!</p>
+        
+        <div id="gift-box-container" onclick="openGift()">
+            <div id="gift-box-top"></div>
+            <div id="gift-box-bottom"></div>
+        </div>
+
+    </div>
+
+    <script>
+        const giftBoxTop = document.getElementById('gift-box-top');
+        const giftBoxContainer = document.getElementById('gift-box-container');
+        const messageElement = document.getElementById('message');
+        let giftOpened = false;
+
+        function openGift() {
+            if (!giftOpened) {
+                giftBoxTop.classList.add('open');
+                giftBoxContainer.classList.add('opened');
+                giftOpened = true;
+
+                setTimeout(() => {
+                    createFlyingDecorations();
+                    messageElement.textContent = "Hope you have a day as amazing as you are!";
+                    messageElement.style.color = '#e91e63';
+                    messageElement.style.animation = 'pulse 2s infinite alternate';
+                }, 700);
+            }
+        }
+
+        function createFlyingDecorations() {
+            const containerRect = giftBoxContainer.getBoundingClientRect();
+            const centerX = containerRect.left + containerRect.width / 2;
+            const centerY = containerRect.top + containerRect.height / 2;
+
+            const decorationTypes = ['candy', 'star', 'heart'];
+            
+            for (let i = 0; i < 30; i++) {
+                const decoration = document.createElement('div');
+                const type = decorationTypes[Math.floor(Math.random() * decorationTypes.length)];
+                decoration.classList.add('decoration-fly', type);
+                
+                decoration.style.left = ${centerX}px;
+                decoration.style.top = ${centerY}px;
+                decoration.style.position = 'fixed';
+
+                document.body.appendChild(decoration);
+
+                const targetX = (Math.random() - 0.5) * window.innerWidth * 0.8;
+                const targetY = (Math.random() - 0.5) * window.innerHeight * 0.8;
+                const rotation = Math.random() * 720 - 360;
+
+                decoration.style.setProperty('--x', ${targetX}px);
+                decoration.style.setProperty('--y', ${targetY}px);
+                decoration.style.setProperty('--rot', ${rotation}deg);
+
+                decoration.addEventListener('animationend', () => {
+                    decoration.remove();
+                });
+            }
+        }
+
+        const imagesToPreload = [
+            "images/r70wK3I.png",
+            "images/WpP8z7V.png"
+        ];
+        imagesToPreload.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+    </script>
+
+</body>
+</html>
