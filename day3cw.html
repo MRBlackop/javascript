@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRING METHODS</title>
+</head>
+<body>
+    <script type="text/javascript">
+        let userProfile =
+        {
+           username : "  coolUser99  ",
+           bio : " I LOVE coding! JavaScript is Great!!! "
+        };
+
+        function cleanUserBio(profile) 
+        {
+            let cleanUsername = profile.username.trim().toLowerCase();
+            let cleanBio = profile.bio.trim().toLowerCase().replace(/javascript/gi , "JS");
+            let biolength = cleanBio.length;
+           
+            return{
+                username:cleanUsername,
+                bio:cleanBio,
+                length:biolength
+            };
+        }
+
+        let newUserProfile = cleanUserBio(userProfile);
+        console.log(newUserProfile);
+    </script>
+</body>
+</html>
